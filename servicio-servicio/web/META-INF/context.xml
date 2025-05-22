@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/servicio-servicio">
-    <Resource auth="Container" 
-              driverClassName="org.postgresql.Driver" 
-              maxIdle="10" 
-              maxTotal="20" 
-              maxWaitMillis="-1" 
-              name="jdbc/IPSDS" 
-              password="lucho96!" 
-              type="javax.sql.DataSource" 
-              url="jdbc:postgresql://localhost:5433/ips_microservicio_servicios" 
-              username="postgres"/>
-</Context>
+ 
+    <!-- PostgreSQL DataSource -->
+    <Resource name="jdbc/IPSDS"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="postgres"
+              password="lucho96!"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5433/ips_microservicio_servicios"
+              maxTotal="20"
+              maxIdle="10"
+              maxWaitMillis="-1" />
+ 
+    <!-- MySQL DataSource -->
+    <Resource name="jdbc/MySQLDS"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password=""
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3307/ips_consentidos"
+              maxTotal="20"
+              maxIdle="10"
+              maxWaitMillis="-1" />
+ 
+</Context>  

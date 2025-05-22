@@ -4,8 +4,10 @@
  */
 package com.oferta.servicio;
 
-import com.oferta.modelo.dao.ServicioDao;
+import com.oferta.modelo.dao.ServicioDaoPostgres;
 import com.oferta.modelo.Servicio;
+import com.oferta.modelo.dao.IServicioDao;
+import com.oferta.modelo.dao.ServicioDaoFactory;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,13 +20,13 @@ import javax.naming.NamingException;
  */
 public class ServicioServicio {
 
-    private ServicioDao serv;
+    private IServicioDao serv;
 
     public ServicioServicio() {
 
         try {
 
-            serv = new ServicioDao();
+            serv =  ServicioDaoFactory.getDao("postgres");
 
         } catch (SQLException | NamingException ex) {
 

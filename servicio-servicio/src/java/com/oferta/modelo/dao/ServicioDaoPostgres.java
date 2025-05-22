@@ -22,23 +22,24 @@ import javax.sql.DataSource;
  *
  * @author ESTUDIANTE
  */
-public class ServicioDao {
+public class ServicioDaoPostgres implements  IServicioDao{
 
-    private Connection conexion;
+    
     private DataSource dataSource;
 
-    public ServicioDao() throws SQLException, NamingException {
+    public ServicioDaoPostgres() throws SQLException, NamingException {
         try {
             InitialContext ctx = new InitialContext();
             dataSource =  (DataSource) ctx.lookup("java:/comp/env/jdbc/IPSDS");
-            conexion = dataSource.getConnection();
+            
         } catch (NamingException ex) {
             throw new RuntimeException("Error de configuración JNDI", ex);
         }
     }
 
+    @Override
     public boolean crearServicio(Servicio servicio) {
-        try {
+        try (Connection conexion=dataSource.getConnection() ){
             String sql = "INSERT INTO servicios (nombre, descripcion,  image_path, id_usuario,id_categoria) VALUES (?, ?, ?, ?, ?)";
     
             PreparedStatement stmt = conexion.prepareStatement(sql);
@@ -50,23 +51,23 @@ public class ServicioDao {
             
             
             int rs = stmt.executeUpdate();
-            stmt.close();
-            conexion.close();
+
 
             return rs > 0;
 
         } catch (SQLException ex) {
-            Logger.getLogger(ServicioDao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServicioDaoPostgres.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             System.out.println(" " + ex.getMessage());
         }
         return false;
     }
 
+    @Override
     public List<Servicio> findAllServicios() {
         List<Servicio> lista = new LinkedList<>();
         String sql = "SELECT * FROM servicios ";
-        try {
+        try(Connection conexion=dataSource.getConnection() ) {
            
             Statement st = conexion.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -83,9 +84,7 @@ public class ServicioDao {
 
             System.out.println("" + lista);
 
-            st.close();
-            rs.close();
-            conexion.close();
+            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,11 +93,12 @@ public class ServicioDao {
         return lista;
     }
     
+    @Override
     public List<Servicio> getServiciosPorPrestador(int idPrestador) {
         List<Servicio> servicios = new LinkedList<>();
         String sql = "SELECT * FROM servicios WHERE id_usuario = ?";
 
-        try {
+        try (Connection conexion=dataSource.getConnection() ){
             
             PreparedStatement stmt = conexion.prepareStatement(sql);
             stmt.setInt(1, idPrestador);
@@ -121,10 +121,11 @@ public class ServicioDao {
         return servicios;
     }
     
+    @Override
     public Servicio obtenerServicioId(int idServicio) {
         String sql = "SELECT * FROM servicios WHERE id = ?";
         Servicio serv = null;
-        try {
+        try(Connection conexion=dataSource.getConnection() ) {
             
             PreparedStatement stmt = conexion.prepareStatement(sql);
             stmt.setInt(1, idServicio);
@@ -146,9 +147,10 @@ public class ServicioDao {
         return serv;
     }
 
+    @Override
     public boolean eliminarServicio(int id) {
         boolean exito = false;
-        try {
+        try (Connection conexion=dataSource.getConnection() ){
             String query = "DELETE FROM servicios WHERE id = ?";
             
             PreparedStatement statement = conexion.prepareStatement(query);
@@ -160,10 +162,12 @@ public class ServicioDao {
         }
         return exito;
     }
-
+      
+    
+    @Override
     public boolean actualizarServicio(int id, String serviceName, String serviceDescription, int idCategoria ) {
         boolean exito = false;
-        try {
+        try (Connection conexion=dataSource.getConnection() ){
             String query = "UPDATE servicios SET nombre = ?, descripcion = ?, categoria = ?, costo = ? WHERE id = ?";
    
             PreparedStatement statement = conexion.prepareStatement(query);

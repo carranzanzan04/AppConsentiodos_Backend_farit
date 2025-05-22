@@ -4,7 +4,7 @@
  */
 package com.oferta.controlador;
 
-import com.oferta.modelo.dao.ServicioDao;
+import com.oferta.modelo.dao.ServicioDaoPostgres;
 import com.oferta.modelo.Servicio;
 import com.oferta.servicio.ServicioServicio;
 import java.io.BufferedReader;
