@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/ESTUDIANTE/OneDrive/Documentos/NetBeansProjects/service-oferta/src/java/com/oferta/modelo/dao/OfertaDao.java</file>
+            <file>file:/C:/Users/ESTUDIANTE/OneDrive/Documentos/NetBeansProjects/service-oferta/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/ESTUDIANTE/OneDrive/Documentos/NetBeansProjects/service-oferta/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/ESTUDIANTE/OneDrive/Documentos/NetBeansProjects/service-oferta/src/java/com/oferta/controlador/OfertaControl.java</file>
+        </group>
     </open-files>
 </project-private>

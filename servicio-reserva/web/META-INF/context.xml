@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/servicio-reservas">
+ 
+    <!-- PostgreSQL DataSource -->
+    <Resource name="jdbc/IPSDS"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="postgres"
+              password="farit_4"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/ips"
+              maxTotal="20"
+              maxIdle="10"
+              maxWaitMillis="-1" />
+             
+    <!-- MySQL DataSource -->
+    <Resource name="jdbc/MySQLDS"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="root"
+              password=""
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/ips"
+              maxTotal="20"
+              maxIdle="10"
+              maxWaitMillis="-1" />
+ 
+</Context>  

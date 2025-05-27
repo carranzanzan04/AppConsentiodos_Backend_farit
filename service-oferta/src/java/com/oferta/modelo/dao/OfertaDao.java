@@ -29,7 +29,7 @@ public class OfertaDao {
     public OfertaDao() throws SQLException, NamingException {
         try {
             InitialContext ctx = new InitialContext();
-            dataSource =  (DataSource) ctx.lookup("java:/comp/env/jdbc/IPSDS");
+            dataSource =  (DataSource) ctx.lookup("java:/comp/env/jdbc/MySQLDS");
             conexion = dataSource.getConnection();
         } catch (NamingException ex) {
             throw new RuntimeException("Error de configuración JNDI", ex);
