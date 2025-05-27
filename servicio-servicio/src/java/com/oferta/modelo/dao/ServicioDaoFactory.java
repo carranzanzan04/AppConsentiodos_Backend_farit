@@ -12,17 +12,11 @@ public class ServicioDaoFactory {
     public static IServicioDao getDao(String tipoBD) throws SQLException, NamingException {
 
         switch (tipoBD.toLowerCase()) {
-
             case "mysql":
-
-                return (IServicioDao) new ServicioDaoMySQL();
-
+                return new ServicioDaoMySQL();
             case "postgres":
-
                 return new ServicioDaoPostgres();
-
             default:
-
                 throw new IllegalArgumentException("Tipo de base de datos no soportado: " + tipoBD);
 
         }

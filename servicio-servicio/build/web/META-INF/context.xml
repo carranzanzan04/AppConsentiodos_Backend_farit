@@ -6,13 +6,13 @@
               auth="Container"
               type="javax.sql.DataSource"
               username="postgres"
-              password="lucho96!"
+              password="farit_4"
               driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost:5433/ips_microservicio_servicios"
+              url="jdbc:postgresql://localhost:5432/ips"
               maxTotal="20"
               maxIdle="10"
               maxWaitMillis="-1" />
- 
+             
     <!-- MySQL DataSource -->
     <Resource name="jdbc/MySQLDS"
               auth="Container"
@@ -20,7 +20,7 @@
               username="root"
               password=""
               driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://localhost:3307/ips_consentidos"
+              url="jdbc:mysql://localhost:3306/ips"
               maxTotal="20"
               maxIdle="10"
               maxWaitMillis="-1" />

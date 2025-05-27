@@ -30,8 +30,7 @@ public class ServicioDaoPostgres implements  IServicioDao{
     public ServicioDaoPostgres() throws SQLException, NamingException {
         try {
             InitialContext ctx = new InitialContext();
-            dataSource =  (DataSource) ctx.lookup("java:/comp/env/jdbc/IPSDS");
-            
+            dataSource =  (DataSource) ctx.lookup("java:/comp/env/jdbc/IPSDS");      
         } catch (NamingException ex) {
             throw new RuntimeException("Error de configuración JNDI", ex);
         }
@@ -51,7 +50,6 @@ public class ServicioDaoPostgres implements  IServicioDao{
             
             
             int rs = stmt.executeUpdate();
-
 
             return rs > 0;
 
@@ -81,10 +79,6 @@ public class ServicioDaoPostgres implements  IServicioDao{
                 Servicio serv = new Servicio(id, nombre, descripcion, idCategoria,image,idPrestador);
                 lista.add(serv);
             }
-
-            System.out.println("" + lista);
-
-            
 
         } catch (Exception e) {
             e.printStackTrace();

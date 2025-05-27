@@ -25,17 +25,11 @@ public class ServicioServicio {
     public ServicioServicio() {
 
         try {
-
-            serv =  ServicioDaoFactory.getDao("postgres");
-
+            serv =  ServicioDaoFactory.getDao("mysql");
         } catch (SQLException | NamingException ex) {
-
             Logger.getLogger(ServicioServicio.class.getName()).log(Level.SEVERE, "Error al inicializar ServicioDao", ex);
-
-            throw new RuntimeException("No se pudo inicializar ServicioDao", ex); // Falla rápido
-
+            throw new RuntimeException("No se pudo inicializar ServicioDao", ex); 
         }
-
     }
  
 

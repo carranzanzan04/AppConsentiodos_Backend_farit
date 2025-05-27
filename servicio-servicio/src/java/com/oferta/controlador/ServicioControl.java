@@ -4,7 +4,6 @@
  */
 package com.oferta.controlador;
 
-import com.oferta.modelo.dao.ServicioDaoPostgres;
 import com.oferta.modelo.Servicio;
 import com.oferta.servicio.ServicioServicio;
 import java.io.BufferedReader;
@@ -34,11 +33,13 @@ import org.json.JSONObject;
 
 @WebServlet("/servicio/*")
 public class ServicioControl extends HttpServlet {
-   ServicioServicio servicioS ;
+
+    ServicioServicio servicioS;
+
     @Override
     public void init() throws ServletException {
         try {
-             servicioS = new ServicioServicio(); // Inicialización única
+            servicioS = new ServicioServicio(); // Inicialización única
         } catch (Exception e) {
             throw new ServletException("Error al inicializar ServicioServicio", e);
         }
@@ -54,23 +55,17 @@ public class ServicioControl extends HttpServlet {
 
         try {
             // Leer los campos enviados
-            System.out.println("voy a lear ");
             int idPrestador = Integer.parseInt(request.getParameter("id"));
-            System.out.println(idPrestador);
             String serviceName = request.getParameter("serviceName");
-            System.out.println("nombre:"+serviceName);
             String serviceDescription = request.getParameter("serviceDescription");
-             System.out.println(serviceDescription);
-           int serviceCategory = Integer.parseInt(request.getParameter("idcategoria"));
-            System.out.println(serviceCategory);
-            
+            int serviceCategory = Integer.parseInt(request.getParameter("idcategoria"));
 
             // Procesar el archivo
             Part filePart = request.getPart("serviceImage"); // El name del input file
             String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // Solo nombre de archivo
 
             // Ruta donde quieres guardar la imagen (por ejemplo en tu proyecto local)
-           String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
+            String uploadPath = getServletContext().getRealPath("") + File.separator + "uploads";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
@@ -85,7 +80,6 @@ public class ServicioControl extends HttpServlet {
             // Crear servicio con ruta de imagen
             Servicio servicio = new Servicio(serviceName, serviceDescription, serviceCategory, imagePath, idPrestador);
 
-          
             boolean exito = servicioS.CrearServicio(servicio);
 
             // Respuesta
@@ -107,9 +101,8 @@ public class ServicioControl extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         setCORSHeaders(request, response);
-        
+
         String pathInfo = request.getPathInfo(); // puede ser null, /{id}, /id/{id}
-       
 
         if (pathInfo == null || pathInfo.equals("/")) {
             // Ruta: /servicio → todos los servicios
@@ -123,7 +116,7 @@ public class ServicioControl extends HttpServlet {
                 servicioJson.put("serviceDescription", servicio.getDescripcion());
                 servicioJson.put("idcategoria", servicio.getIdCategoria());
                 servicioJson.put("serviceImage", servicio.getImagePath());
-                   servicioJson.put("idprestador", servicio.getIdPrestador());
+                servicioJson.put("idprestador", servicio.getIdPrestador());
                 serviciosJson.put(servicioJson);
             }
 
@@ -160,11 +153,11 @@ public class ServicioControl extends HttpServlet {
                 if (servicio != null) {
                     JSONObject servicioJson = new JSONObject();
                     servicioJson.put("serviceId", servicio.getId());
-                servicioJson.put("serviceName", servicio.getNombre());
-                servicioJson.put("serviceDescription", servicio.getDescripcion());
-                servicioJson.put("idcategoria", servicio.getIdCategoria());
-                servicioJson.put("serviceImage", servicio.getImagePath());
-                   servicioJson.put("idprestador", servicio.getIdPrestador());
+                    servicioJson.put("serviceName", servicio.getNombre());
+                    servicioJson.put("serviceDescription", servicio.getDescripcion());
+                    servicioJson.put("idcategoria", servicio.getIdCategoria());
+                    servicioJson.put("serviceImage", servicio.getImagePath());
+                    servicioJson.put("idprestador", servicio.getIdPrestador());
 
                     response.setContentType("application/json");
                     response.getWriter().write(servicioJson.toString());
@@ -183,7 +176,7 @@ public class ServicioControl extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
+
         setCORSHeaders(request, response);
 
         try {
@@ -192,7 +185,6 @@ public class ServicioControl extends HttpServlet {
             int id = Integer.parseInt(idStr);
 
             // Llamar al DAO para eliminar el servicio
-            
             boolean exito = servicioS.eliminarServicioId(id);
 
             // Responder al cliente
@@ -236,11 +228,10 @@ public class ServicioControl extends HttpServlet {
             String serviceName = json.getString("serviceName");
             String serviceDescription = json.getString("serviceDescription");
             int idCategoria = json.getInt("id_categoria");
-            
 
             // Llamar al DAO para actualizar el servicio
-           //servicioDao.actualizarServicio(id, serviceName, serviceDescription, idCategoria)
-            boolean exito = servicioS.actualizarServicio(id,serviceName,serviceDescription,idCategoria);
+            //servicioDao.actualizarServicio(id, serviceName, serviceDescription, idCategoria)
+            boolean exito = servicioS.actualizarServicio(id, serviceName, serviceDescription, idCategoria);
 
             // Responder al cliente
             JSONObject respuesta = new JSONObject();
@@ -254,23 +245,22 @@ public class ServicioControl extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error actualizando el servicio: " + e.getMessage());
         }
     }
-    
-    
+
     private void setCORSHeaders(HttpServletRequest request, HttpServletResponse response) {
         String origin = request.getHeader("Origin");
         // Lista de orígenes permitidos (ajusta según tus necesidades)
         List<String> allowedOrigins = List.of("http://localhost:5173");
-        
+
         if (origin != null && allowedOrigins.contains(origin)) {
             response.setHeader("Access-Control-Allow-Origin", origin);
         }
-        
+
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Max-Age", "3600"); // Cache preflight por 1 hora
     }
-    
+
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
